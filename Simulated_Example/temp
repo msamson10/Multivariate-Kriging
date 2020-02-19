@@ -1,0 +1,48 @@
+Parameters for VARCALC
+**********************
+
+START OF PARAMETERS:
+Data/Cluster1.out                 -file with data
+1 2 0                         -   columns for X, Y, Z coordinates
+2  3 4                        -   number of variables,column numbers (position used for tail,head variables below)
+-20.0    1.0e21                  -   trimming limits
+2                                 -number of directions
+90  25 1000 0.0 22.5 1000 0.0   -Dir 01: azm,azmtol,bandhorz,dip,diptol,bandvert,tilt
+9  12.5  12.5                 -        number of lags,lag distance,lag tolerance
+0   25 1000 0.0 22.5 1000 0.0   -Dir 01: azm,azmtol,bandhorz,dip,diptol,bandvert,tilt
+9  12.5  12.5                 -        number of lags,lag distance,lag tolerance
+2-vargfls/varcalc_Cross.out                       -file for experimental variogram points output.
+0                                 -legacy output (0=no, 1=write out gamv2004 format)
+1                                 -run checks for common errors
+0.7197391780935075                                 -standardize sills? (0=no, 1=yes)
+1                                 -number of variogram types
+1   2   2   ?                     -tail variable, head variable, variogram type (and cutoff/category), sill
+
+
+NOTES ON VARIOGRAM CALCULATION:
+1) By default, varcalc runs checks for common errors in parameter choices. This can be
+disabled if desired. 
+2) Varcalc can standardize using a provided sill (such as a declustered variance).
+For example, if variable 1 has a declustered variance of 8.6, the traditional
+semivariogram could be standardized by setting the variogram type to:
+1  1  1  8.6
+Alternatively, varcalc can attempt to infer a sill for standardizing by setting
+the variogram type to:
+1  1  1  ?
+The calculated sills will be written to the console. 
+3) Variogram types are the same as in GSLIB:
+1 = traditional semivariogram
+2 = traditional cross semivariogram
+3 = covariance   (-3 calculates variance (provided sill) -covariance)
+4 = correlogram  (-4 calculates 1-correlation)
+5 = general relative semivariogram
+6 = pairwise relative semivariogram
+7 = semivariogram of logarithms
+8 = semimadogram
+9 = indicator semivariogram - continuous  - requires a cutoff
+10= indicator semivariogram - categorical - requires a category
+4) For indicator variograms, the variogram cutoff/categories are specified immediately after the variogram type
+1   1   9   1.0   ?               -tail variable, head variable, variogram type (and cutoff/category), sill
+5) If desired, the program can write out the variogram points in the gamv2004 style
+for compatibility with older versions. Tilt was not supported in pre-varcalc experimental variogram
+programs so use carefully. 
